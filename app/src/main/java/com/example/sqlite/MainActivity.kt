@@ -693,6 +693,7 @@ class MainActivity : AppCompatActivity() {
                 val queue = Volley.newRequestQueue(this)
                 val url= "http://192.168.1.72/promociones/includes/buscar.php?SearchUploadValidar=$cuenta"
 
+
                 val jsonObjectRequest = JsonObjectRequest(
                     Request.Method.GET,url,null,
                     { response ->
@@ -708,7 +709,8 @@ class MainActivity : AppCompatActivity() {
                             val queue= Volley.newRequestQueue(this)
                             var resultadoPost = object : StringRequest(Request.Method.POST,url,
                                 Response.Listener <String> { response ->
-                                   // Toast.makeText(this,"Sincronizado",Toast.LENGTH_SHORT).show()
+
+
                                 }, Response.ErrorListener { error ->
                                     Toast.makeText(this,"Error al insertar $error",Toast.LENGTH_SHORT).show()
                                 }) {
@@ -804,7 +806,7 @@ class MainActivity : AppCompatActivity() {
         val con=SQlite(this,"promociones",null,1)
         val BaseDatos = con.writableDatabase
 
-        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where folio between 900 and 1000",null)
+        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where folio between 1 and 100",null)
         if(fila.moveToFirst() == true){
             val columnas = fila.count
             Toast.makeText(this," registros $columnas",Toast.LENGTH_SHORT).show()
@@ -817,12 +819,13 @@ class MainActivity : AppCompatActivity() {
 
 
                 val queue = Volley.newRequestQueue(this)
-                val url= "http://192.168.1.64/promociones/includes/buscar.php?folioAbono=$folio"
+                val url= "http://192.168.1.72/promociones/includes/buscar.php?folioAbono=$folio"
 
                 val jsonObjectRequest = JsonObjectRequest(
                     Request.Method.GET,url,null,
                     { response ->
                         var validar = response.getString("validarAbonos").toInt()
+
 
                        // Toast.makeText(this," total de columnas $columnas",Toast.LENGTH_SHORT).show()
 
@@ -833,7 +836,7 @@ class MainActivity : AppCompatActivity() {
                             //metodo para subir la informacin a mysql
 
 
-                            val url= "http://192.168.1.64/promociones/includes/insertarAbonos.php"
+                            val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
                             val queue= Volley.newRequestQueue(this)
                             var resultadoPost = object : StringRequest(Request.Method.POST,url,
                                 Response.Listener <String> { response ->
