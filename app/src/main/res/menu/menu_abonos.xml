@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/next"
+        android:title="Para la otra"
+        app:showAsAction=""
+
+        />
+
+
+
+    <item
+
+        android:id="@+id/Buscar"
+        android:title="Buscar"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="ifRoom"
+
+
+        />
+
+    <item
+        android:id="@+id/menu_ver"
+        android:title="Ver cuenta"
+        android:icon="@drawable/ic_baseline_remove_red_eye_24"
+        app:showAsAction="ifRoom"
+
+        />
+
+
+    <item
+
+    android:id="@+id/menu_siguiente"
+    android:title="Ver mañana"
+    android:icon="@drawable/ic_baseline_next_plan_24"
+    app:showAsAction="ifRoom"
+
+    />
+
+    <item
+        android:id="@+id/menu_editar"
+        android:title="Editar"
+        app:showAsAction=""
+        />
+
+    <item
+        android:id="@+id/fechar_abo"
+        android:title="Fechar"
+        app:showAsAction=""
+        />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</menu>

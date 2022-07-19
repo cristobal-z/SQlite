@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/fec"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="Fechar"
+
+
+        app:showAsAction="" />
+
+    <item
+        android:id="@+id/ver_hoy"
+        android:title="Ver"
+        android:icon="@drawable/ic_baseline_table_view_24"
+        app:showAsAction="ifRoom"
+
+
+        />
+
+    <item
+        android:id="@+id/tabla_principal"
+        android:title="Buscar"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="ifRoom"
+
+
+        />
+
+    <item
+        android:id="@+id/respaldar"
+        android:title="Respaldar"
+
+        app:showAsAction=""
+
+
+        />
+
+    <item
+        android:id="@+id/descargar"
+        android:title="Descargar"
+
+        app:showAsAction=""
+
+
+        />
+
+
+
+
+</menu>
