@@ -86,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         sp_ciudad?.adapter=adaptador1
         // end
 
+        // prue
+
 
         cuenta_buscar = intent.getStringExtra("cuenta").toString() // recibo numero de cuenta
 
