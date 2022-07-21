@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             R.id.tabla_principal -> clientes()
             R.id.fec->fech()
             R.id.ver_hoy-> VerHoy()
-            R.id.respaldar-> SubirTodo()
+            R.id.respaldar-> SubirAbonos()
             R.id.descargar-> Descargar()
 
         }
@@ -806,7 +806,7 @@ class MainActivity : AppCompatActivity() {
         val con=SQlite(this,"promociones",null,1)
         val BaseDatos = con.writableDatabase
 
-        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where folio between 1 and 100",null)
+        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where folio between 1401 and 1419",null)
         if(fila.moveToFirst() == true){
             val columnas = fila.count
             Toast.makeText(this," registros $columnas",Toast.LENGTH_SHORT).show()
@@ -870,7 +870,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         if(validar >= 1){
 
-                          // Toast.makeText(this,"Ya existe este usuario $folio",Toast.LENGTH_LONG).show()
+                           Toast.makeText(this,"Ya existe este usuario $folio",Toast.LENGTH_SHORT).show()
                         }
 
                     }, { error ->

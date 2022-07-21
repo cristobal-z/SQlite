@@ -158,6 +158,7 @@ class MainActivity2 : AppCompatActivity() {
         var con = SQlite(this,"promociones",null,1)
         var BaseDatos = con.writableDatabase
 
+        var no_cuenta = cuenta.toString()
         var fecha = txt_fecha_abo?.text.toString()
         var abono = txt_abo_pago?.text.toString()
         var saldo = txt_saldo_abo?.text.toString()
@@ -187,18 +188,70 @@ class MainActivity2 : AppCompatActivity() {
 
                 }else {
 
+
                     var registro = ContentValues()
 
-                    registro.put("no_cuenta",cuenta)
+                    registro.put("no_cuenta",no_cuenta)
                     registro.put("fecha",fecha)
                     registro.put("abono",abono)
                     registro.put("saldo",sal)
 
-                    BaseDatos.insert("abonos","folio",registro)
-                    Toast.makeText(this,"Insertado",Toast.LENGTH_LONG).show()
-                    BuscarFechado()
+                    // subir al servidor
+                    // antes validar si tiene abonos pendientes por sincronizar
 
-                    LlenarTabla()
+                    val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
+                    val queue= Volley.newRequestQueue(this)
+                    var resultadoPost = object : StringRequest(Request.Method.POST,url,
+                        Response.Listener <String> { response ->
+                            var respuesta = response.toInt()
+                            if(respuesta == 0){ // si el 0 significa que si hay conexion al servidor pero no se guardo en el servidor
+                                registro.put("inspecion","sin sincronizar") // se agrega un nuevo parametro segun el estado del servidor
+
+                                BaseDatos.insert("abonos","folio",registro)
+                                Toast.makeText(this,"Insertado de manera local",Toast.LENGTH_LONG).show()
+                                BuscarFechado()
+
+                                LlenarTabla()
+
+                            }else if(respuesta == 1){ // se inserto en el servidor de manera exitosa
+
+                                registro.put("inspecion","sincronizado") // se agrega un nuevo parametro segun el estado del servidor
+
+                                BaseDatos.insert("abonos","folio",registro)
+                                Toast.makeText(this,"Insertado $sal",Toast.LENGTH_LONG).show()
+                                BuscarFechado()
+
+                                LlenarTabla()
+                            }
+                            //  Toast.makeText(this,"Abonos insertados",Toast.LENGTH_SHORT).show()
+                        }, Response.ErrorListener { error ->
+
+                            // significa que no hay conexion con el servidor y se guardara de manera local
+                            registro.put("inspecion","sin sincronizar") // se agrega un nuevo parametro segun el estado del servidor
+
+                            BaseDatos.insert("abonos","folio",registro)
+                            Toast.makeText(this,"Insertado de manera local",Toast.LENGTH_LONG).show()
+                            BuscarFechado()
+
+                            LlenarTabla()
+
+                            Toast.makeText(this,"Error al insertar $error",Toast.LENGTH_SHORT).show()
+                        }) {
+                        override fun getParams(): MutableMap<String, String>? {
+                            val parametros = java.util.HashMap<String, String>()
+
+                            parametros.put("no_cuenta",no_cuenta)
+                            parametros.put("fecha",fecha)
+                            parametros.put("abono",abono)
+                            parametros.put("saldo",sal.toString())
+
+
+                            return parametros
+                        }
+                    }
+
+                    queue.add(resultadoPost)
+
                 }
             }
 
@@ -208,7 +261,7 @@ class MainActivity2 : AppCompatActivity() {
 
             var registro = ContentValues()
 
-            registro.put("no_cuenta",cuenta)
+            registro.put("no_cuenta",no_cuenta)
             registro.put("fecha",fecha)
             registro.put("abono",abono)
             registro.put("saldo",saldo)
