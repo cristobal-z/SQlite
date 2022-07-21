@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         sp_ciudad= findViewById(R.id.sp_ciudad)
         txt_ref= findViewById(R.id.txt_ref)
 
-
+        // s agrego esta linea desde la pc
         // codigo spiner_ciudad
         var listCampos = arrayOf("Oluta","Soconusco","Acayucan","Hidalgo","Dehesa","Cuadra","Sayula")
         var adaptador1 : ArrayAdapter<String> = ArrayAdapter(this,android.R.layout.simple_spinner_item,listCampos)
