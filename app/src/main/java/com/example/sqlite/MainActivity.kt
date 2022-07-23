@@ -808,7 +808,7 @@ class MainActivity : AppCompatActivity() {
         val con=SQlite(this,"promociones",null,1)
         val BaseDatos = con.writableDatabase
 
-        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where folio between 1401 and 1419",null)
+        val fila = BaseDatos.rawQuery("select folio, no_cuenta, fecha, abono, saldo from abonos where inspecion = 'sin sincronizar'",null)
         if(fila.moveToFirst() == true){
             val columnas = fila.count
             Toast.makeText(this," registros $columnas",Toast.LENGTH_SHORT).show()
@@ -820,74 +820,66 @@ class MainActivity : AppCompatActivity() {
                 val saldo = fila.getString(4)
 
 
-                val queue = Volley.newRequestQueue(this)
-                val url= "http://192.168.1.72/promociones/includes/buscar.php?folioAbono=$folio"
+                // Toast.makeText(this," $validar $folio $cuenta $fecha $abono $saldo",Toast.LENGTH_SHORT).show()
 
-                val jsonObjectRequest = JsonObjectRequest(
-                    Request.Method.GET,url,null,
-                    { response ->
-                        var validar = response.getString("validarAbonos").toInt()
+                //metodo para subir la informacin a mysql
 
 
-                       // Toast.makeText(this," total de columnas $columnas",Toast.LENGTH_SHORT).show()
+                val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
+                val queue= Volley.newRequestQueue(this)
+                var resultadoPost = object : StringRequest(Request.Method.POST,url,
+                    Response.Listener <String> { response ->
+                        var respuesta = response.toInt()
+                        if(respuesta == 0){
 
-                        if(validar == 0){
+                            // actualizo el registro a 'sincronizado'
 
-                           // Toast.makeText(this," $validar $folio $cuenta $fecha $abono $saldo",Toast.LENGTH_SHORT).show()
+                            var registro = ContentValues()
+                            registro.put("inspecion","sincronizado")
 
-                            //metodo para subir la informacin a mysql
-
-
-                            val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
-                            val queue= Volley.newRequestQueue(this)
-                            var resultadoPost = object : StringRequest(Request.Method.POST,url,
-                                Response.Listener <String> { response ->
-                                    //  Toast.makeText(this,"Abonos insertados",Toast.LENGTH_SHORT).show()
-                                }, Response.ErrorListener { error ->
-                                    Toast.makeText(this,"Error al insertar $error",Toast.LENGTH_SHORT).show()
-                                }) {
-                                override fun getParams(): MutableMap<String, String>? {
-                                    val parametros = HashMap<String,String>()
-                                    parametros.put("folio",folio)
-                                    parametros.put("cuenta",cuenta)
-                                    parametros.put("fecha",fecha)
-                                    parametros.put("abono",abono)
-                                    parametros.put("saldo",saldo)
-
-                                    return parametros
-                                }
+                            var resul = BaseDatos.update("abonos",registro, "folio = $folio",null)
+                            if (resul >=1){
+                                Toast.makeText(this,"$resul abonos insertados",Toast.LENGTH_SHORT).show()
                             }
 
-                            queue.add(resultadoPost)
-
-
-
-
-
-                            // fin subir
-
-                            // significa que no existe
-
+                        }
+                        if (respuesta==1){
+                            Toast.makeText(this,"Ya existe el abono",Toast.LENGTH_SHORT).show()
 
                         }
-                        if(validar >= 1){
+                        if (respuesta == 2){
+                            Toast.makeText(this,"Error al insertar",Toast.LENGTH_SHORT).show()
 
-                           Toast.makeText(this,"Ya existe este usuario $folio",Toast.LENGTH_SHORT).show()
                         }
 
-                    }, { error ->
+                        //  Toast.makeText(this,"Abonos insertados",Toast.LENGTH_SHORT).show()
+                    }, Response.ErrorListener { error ->
+                        Toast.makeText(this,"Error, no esta disponible el servidor",Toast.LENGTH_SHORT).show()
+                    }) {
+                    override fun getParams(): MutableMap<String, String>? {
+                        val parametros = HashMap<String,String>()
 
-                        Toast.makeText(this,"error $error",Toast.LENGTH_LONG).show()
+                        parametros.put("no_cuenta",cuenta)
+                        parametros.put("fecha",fecha)
+                        parametros.put("abono",abono)
+                        parametros.put("saldo",saldo)
+
+                        return parametros
                     }
-                )
-                queue.add(jsonObjectRequest)
+                }
+
+                queue.add(resultadoPost)
+
+
+
+
+
+                // fin subir
+
+                // significa que no existe
 
 
                 //
-
-
-
-
 
 
 
@@ -1036,10 +1028,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun PruebaConJsonArray(){
-        val queue = Volley.newRequestQueue(this)
-        val url= "http://192.168.1.72/promociones/includes/buscar.php"
-    }
+
 
 
 

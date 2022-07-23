@@ -196,61 +196,18 @@ class MainActivity2 : AppCompatActivity() {
                     registro.put("abono",abono)
                     registro.put("saldo",sal)
 
+                    registro.put("inspecion","sin sincronizar") // se agrega un nuevo parametro segun el estado del servidor
+
+                    BaseDatos.insert("abonos","folio",registro)
+                    Toast.makeText(this,"Insertado de manera local",Toast.LENGTH_LONG).show()
+                    BuscarFechado()
+
+                    LlenarTabla()
+
                     // subir al servidor
                     // antes validar si tiene abonos pendientes por sincronizar
 
-                    val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
-                    val queue= Volley.newRequestQueue(this)
-                    var resultadoPost = object : StringRequest(Request.Method.POST,url,
-                        Response.Listener <String> { response ->
-                            var respuesta = response.toInt()
-                            if(respuesta == 0){ // si el 0 significa que si hay conexion al servidor pero no se guardo en el servidor
-                                registro.put("inspecion","sin sincronizar") // se agrega un nuevo parametro segun el estado del servidor
 
-                                BaseDatos.insert("abonos","folio",registro)
-                                Toast.makeText(this,"Insertado de manera local",Toast.LENGTH_LONG).show()
-                                BuscarFechado()
-
-                                LlenarTabla()
-
-                            }else if(respuesta == 1){ // se inserto en el servidor de manera exitosa
-
-                                registro.put("inspecion","sincronizado") // se agrega un nuevo parametro segun el estado del servidor
-
-                                BaseDatos.insert("abonos","folio",registro)
-                                Toast.makeText(this,"Insertado $sal",Toast.LENGTH_LONG).show()
-                                BuscarFechado()
-
-                                LlenarTabla()
-                            }
-                            //  Toast.makeText(this,"Abonos insertados",Toast.LENGTH_SHORT).show()
-                        }, Response.ErrorListener { error ->
-
-                            // significa que no hay conexion con el servidor y se guardara de manera local
-                            registro.put("inspecion","sin sincronizar") // se agrega un nuevo parametro segun el estado del servidor
-
-                            BaseDatos.insert("abonos","folio",registro)
-                            Toast.makeText(this,"Insertado de manera local",Toast.LENGTH_LONG).show()
-                            BuscarFechado()
-
-                            LlenarTabla()
-
-                            Toast.makeText(this,"Error al insertar $error",Toast.LENGTH_SHORT).show()
-                        }) {
-                        override fun getParams(): MutableMap<String, String>? {
-                            val parametros = java.util.HashMap<String, String>()
-
-                            parametros.put("no_cuenta",no_cuenta)
-                            parametros.put("fecha",fecha)
-                            parametros.put("abono",abono)
-                            parametros.put("saldo",sal.toString())
-
-
-                            return parametros
-                        }
-                    }
-
-                    queue.add(resultadoPost)
 
                 }
             }
