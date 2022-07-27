@@ -804,7 +804,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun SubirAbonos(){
+    fun SubirAbonos(){ // funcion para subir los abonos de manera local al servidor web
         val con=SQlite(this,"promociones",null,1)
         val BaseDatos = con.writableDatabase
 
@@ -825,7 +825,7 @@ class MainActivity : AppCompatActivity() {
                 //metodo para subir la informacin a mysql
 
 
-                val url= "http://192.168.1.72/promociones/includes/insertarAbonos.php"
+                val url= "https://promocionesdominguez.000webhostapp.com/aplicacion/insertarAbonos.php"
                 val queue= Volley.newRequestQueue(this)
                 var resultadoPost = object : StringRequest(Request.Method.POST,url,
                     Response.Listener <String> { response ->
