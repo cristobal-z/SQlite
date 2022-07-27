@@ -577,10 +577,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun Subir(){
+    fun Subir(){ // funcion que sube los datos al servidor web
 
 
-        val url= "http://192.168.1.72/promociones/includes/insertar.php"
+        val url= "https://promocionesdominguez.000webhostapp.com/aplicacion/insertar.php"
         val queue= Volley.newRequestQueue(this)
         var resultadoPost = object : StringRequest(Request.Method.POST,url,
             Response.Listener <String> { response ->
@@ -620,7 +620,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun validarSubida(){
+    fun validarSubida(){  // funcion para subir los clientes al servidor
 
         if (txt_cuenta?.text.toString().isEmpty()){
 
@@ -628,7 +628,7 @@ class MainActivity : AppCompatActivity() {
 
             val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
             val queue = Volley.newRequestQueue(this)
-            val url= "http://192.168.1.72/promociones/includes/buscar.php?SearchUploadValidar=$cuenta"
+            val url= "https://promocionesdominguez.000webhostapp.com/aplicacion/buscar.php?SearchUploadValidar=$cuenta"
 
             val jsonObjectRequest = JsonObjectRequest(
                 Request.Method.GET,url,null,
@@ -906,7 +906,7 @@ class MainActivity : AppCompatActivity() {
 
                 if(validar == 0){
 
-                    Toast.makeText(this,"No existe en el servidor del internet ni local",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"No existe en el servidor del internet ni local",Toast.LENGTH_SHORT).show()
 
                    // Subir() // significa que no existe
                 }
@@ -914,13 +914,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
-                    Toast.makeText(this,"Existe este usuario en el servidor pero no en local",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"Existe este usuario en el servidor pero no en local",Toast.LENGTH_SHORT).show()
                     SearchUploadSubir()
                 }
 
             }, { error ->
 
-                Toast.makeText(this,"error $error",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"error $error",Toast.LENGTH_SHORT).show()
             }
         )
         queue.add(jsonObjectRequest)
