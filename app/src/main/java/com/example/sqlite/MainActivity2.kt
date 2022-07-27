@@ -549,7 +549,7 @@ if(fila.moveToFirst() == true){
 
         // val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
          val queue = Volley.newRequestQueue(this)
-         val url= "http://192.168.1.72/promociones/includes/prueba.php?ValidarAbonos=$cuenta"
+         val url= "https://promocionesdominguez.000webhostapp.com/aplicacion/prueba.php?ValidarAbonos=$cuenta"
 
          val jsonObjectRequest = JsonObjectRequest(
              Request.Method.GET,url,null,
@@ -569,7 +569,7 @@ if(fila.moveToFirst() == true){
 
                      //val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
                      val queue = Volley.newRequestQueue(this)
-                     val url= "http://192.168.1.72/promociones/includes/prueba.php?Abonos=$cuenta"
+                     val url= "https://promocionesdominguez.000webhostapp.com/aplicacion/prueba.php?Abonos=$cuenta"
                      val jsonObjectRequest = JsonObjectRequest(
                          Request.Method.GET,url,null,
                          { response ->
