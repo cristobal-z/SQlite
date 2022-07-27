@@ -897,7 +897,7 @@ class MainActivity : AppCompatActivity() {
     fun SearchUpload(){ // buscar e insertar los datos desde el servidor
         val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
         val queue = Volley.newRequestQueue(this)
-        val url= "http://192.168.1.72/promociones/includes/buscar.php?SearchUploadValidar=$cuenta"
+        val url= "http://185.27.134.55/promociones/aplicacion/buscar.php?SearchUploadValidar=$cuenta"
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,url,null,
@@ -906,7 +906,7 @@ class MainActivity : AppCompatActivity() {
 
                 if(validar == 0){
 
-                    Toast.makeText(this,"No existe en el servidor ni local",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"No existe en el servidor del internet ni local",Toast.LENGTH_LONG).show()
 
                    // Subir() // significa que no existe
                 }
