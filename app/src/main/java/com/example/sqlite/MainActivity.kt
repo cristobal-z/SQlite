@@ -897,7 +897,7 @@ class MainActivity : AppCompatActivity() {
     fun SearchUpload(){ // buscar e insertar los datos desde el servidor
         val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
         val queue = Volley.newRequestQueue(this)
-        val url= "http://casadominguez.great-site.net/aplicacion/buscar.php?SearchUploadValidar=$cuenta"
+        val url= "https://promocionesdominguez.000webhostapp.com/buscar.php?SearchUploadValidar=$cuenta"
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,url,null,
@@ -933,7 +933,7 @@ class MainActivity : AppCompatActivity() {
 
         val cuenta = tv_ruta?.text.toString() + txt_cuenta?.text.toString()
         val queue = Volley.newRequestQueue(this)
-        val url= "http://casadominguez.great-site.net/aplicacion/buscar.php?SearchUploadSubir=$cuenta"
+        val url= "https://promocionesdominguez.000webhostapp.com/buscar.php?SearchUploadSubir=$cuenta"
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,url,null,
